@@ -145,44 +145,6 @@ $ ./todo report           # Statistics
 `);
 }
 
-//read-Todo-line
-const readTodoLine = async () =>{
-    return new Promise((resolve, reject) => {
-        var Todofile = './todo.txt';
-        var todoCount = 0;
-        var rl = readline.createInterface({
-            input: fs.createReadStream(Todofile),
-            output: process.stdout,
-            terminal: false
-        });
-        rl.on('line', function (line) {
-            todoCount++; 
-        });
-        rl.on('close', function() {
-            resolve(todoCount); 
-        });
-    });
-}
-
-//read-completed-todo-line
-const readCompletedTodoLine = async () =>{
-    return new Promise((resolve, reject) => {
-        var completeTodoFile = './done.txt';
-        var todoCount = 0;
-        var rl = readline.createInterface({
-            input: fs.createReadStream(completeTodoFile),
-            output: process.stdout,
-            terminal: false
-        }); 
-        rl.on('line', function (line) {
-            todoCount++; 
-        });
-        rl.on('close', function() {
-            resolve(todoCount); 
-        });
-    });
-}
-
 //simple date-format 
 const dateFormat = () =>{
     var today = new Date();
