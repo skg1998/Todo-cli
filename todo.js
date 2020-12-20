@@ -57,7 +57,7 @@ commands.ls = () =>{
 * @return "Error: Missing NUMBER for deleting todo."
 * @example ./todo del NUMBER
 */
-commands.del = async (index) =>{
+commands.del = (index) =>{
     if(!index){
         console.log("Error: Missing NUMBER for deleting todo.");
         return 
@@ -89,7 +89,7 @@ commands.del = async (index) =>{
 * @returnerror mark as done a todo which does not exist show "Error: todo #0 does not exist."
 * @example ./todo done NUMBER 
 */
-commands.done = async (index) =>{
+commands.done = (index) =>{
 
     if(!index){
         console.log("Error: Missing NUMBER for marking todo as done.");
@@ -145,6 +145,47 @@ $ ./todo report           # Statistics
 `);
 }
 
+
+/** **************     alternate way to read the line in txt file    ********* */
+//read-Todo-line
+const readTodoLine = async () =>{
+    return new Promise((resolve, reject) => {
+        var Todofile = './todo.txt';
+        var todoCount = 0;
+        var rl = readline.createInterface({
+            input: fs.createReadStream(Todofile),
+            output: process.stdout,
+            terminal: false
+        });
+        rl.on('line', function (line) {
+            todoCount++; 
+        });
+        rl.on('close', function() {
+            resolve(todoCount); 
+        });
+    });
+}
+
+//read-completed-todo-line
+const readCompletedTodoLine = async () =>{
+    return new Promise((resolve, reject) => {
+        var completeTodoFile = './done.txt';
+        var todoCount = 0;
+        var rl = readline.createInterface({
+            input: fs.createReadStream(completeTodoFile),
+            output: process.stdout,
+            terminal: false
+        }); 
+        rl.on('line', function (line) {
+            todoCount++; 
+        });
+        rl.on('close', function() {
+            resolve(todoCount); 
+        });
+    });
+}
+/**      *****************************     *********************************** */
+
 //simple date-format 
 const dateFormat = () =>{
     var today = new Date();
@@ -167,7 +208,7 @@ const dateFormat = () =>{
 * @return  dd/mm/yyyy Pending : 1 Completed : 4
 * @example ./todo report
 */
-commands.report = async () => {
+commands.report = () => {
     let filedata = fs.readFileSync('todo.txt').toString();
     let todoList = filedata.split("\n").reverse();
 
